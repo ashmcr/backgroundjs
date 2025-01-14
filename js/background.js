@@ -1,8 +1,14 @@
 import * as THREE from 'three';
 
 export function initBackground() {
-    document.addEventListener('DOMContentLoaded', function() {
+    function init() {
         try {
+            const canvas = document.getElementById('background-canvas');
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+
             const config = {
                 MOUSE_FORCE: 0.8,
                 COLOR_INTENSITY: 2.0,
@@ -20,7 +26,6 @@ export function initBackground() {
                 ],
             };
 
-            const canvas = document.getElementById('background-canvas');
             const mouse = { x: 0.5, y: 0.5 };
             const currentMouse = { x: 0.5, y: 0.5 };
 
@@ -222,9 +227,19 @@ export function initBackground() {
 
         } catch (error) {
             console.error('Background initialization failed:', error);
-            document.getElementById('debug').textContent = 'Error: ' + error.message;
+            const debugElement = document.getElementById('debug');
+            if (debugElement) {
+                debugElement.textContent = 'Error: ' + error.message;
+            }
         }
-    });
+    }
+
+    // Check if document is already loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 }
 
 // Automatic initialization if needed

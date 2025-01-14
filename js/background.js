@@ -1,11 +1,24 @@
 import * as THREE from 'three';
 
 export function initBackground() {
+    // Wait for both DOM and Breakdance to be ready
+    if (window.breakdanceUtils && window.breakdanceUtils.isBuilder) {
+        // If in Breakdance builder, wait for builder to be ready
+        window.breakdanceUtils.onBuilderReady(() => init());
+    } else {
+        // Regular front-end initialization
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    }
+
     function init() {
         try {
             const canvas = document.getElementById('background-canvas');
             if (!canvas) {
-                console.error('Canvas element not found');
+                console.error('Canvas element not found. Make sure to add a canvas with id="background-canvas"');
                 return;
             }
 
@@ -233,14 +246,9 @@ export function initBackground() {
             }
         }
     }
-
-    // Check if document is already loaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
 }
 
-// Automatic initialization if needed
-initBackground(); 
+// Only auto-initialize if not in Breakdance builder
+if (!window.breakdanceUtils?.isBuilder) {
+    initBackground();
+} 

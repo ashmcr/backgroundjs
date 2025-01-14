@@ -1,0 +1,12 @@
+{
+  "name": "@ashmcr/backgroundjs",
+  "version": "1.0.0",
+  "description": "Three.js background animation",
+  "main": "js/background.js",
+  "files": [
+    "js/background.js"
+  ],
+  "keywords": ["threejs", "animation", "background"],
+  "author": "Your Name",
+  "license": "MIT"
+}
